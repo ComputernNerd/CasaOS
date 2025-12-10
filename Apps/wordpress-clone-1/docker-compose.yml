@@ -1,0 +1,100 @@
+# Configuration for big-bear-wordpress-1 setup
+
+name: big-bear-wordpress-1
+
+services:
+
+  app:
+    image: wordpress:6.8.3
+    ports:
+      - "8082:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: casaos
+      WORDPRESS_DB_PASSWORD: casaos
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - /DATA/AppData/$AppID/html:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - wpnet
+    x-casaos:
+      envs:
+        - container: WORDPRESS_DB_HOST
+          description:
+            en_us: "Container Variable: WORDPRESS_DB_HOST"
+        - container: WORDPRESS_DB_USER
+          description:
+            en_us: "Container Variable: WORDPRESS_DB_USER"
+        - container: WORDPRESS_DB_PASSWORD
+          description:
+            en_us: "Container Variable: WORDPRESS_DB_PASSWORD"
+        - container: WORDPRESS_DB_NAME
+          description:
+            en_us: "Container Variable: WORDPRESS_DB_NAME"
+      volumes:
+        - container: /var/www/html
+          description:
+            en_us: "Container Path: /var/www/html"
+      ports:
+        - container: "80"
+          description:
+            en_us: "Container Port: 80"
+
+  db:
+    image: mariadb:10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: casaos
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: casaos
+      MYSQL_PASSWORD: casaos
+    volumes:
+      - /DATA/AppData/$AppID/mysql:/var/lib/mysql
+    networks:
+      - wpnet
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      retries: 10
+    x-casaos:
+      envs:
+        - container: MYSQL_DATABASE
+          description:
+            en_us: "Container Variable: MYSQL_DATABASE"
+        - container: MYSQL_USER
+          description:
+            en_us: "Container Variable: MYSQL_USER"
+        - container: MYSQL_PASSWORD
+          description:
+            en_us: "Container Variable: MYSQL_PASSWORD"
+        - container: MYSQL_ROOT_PASSWORD
+          description:
+            en_us: "Container Variable: MYSQL_ROOT_PASSWORD"
+      volumes:
+        - container: /var/lib/mysql
+          description:
+            en_us: "Container Path: /var/lib/mysql"
+
+networks:
+  wpnet:
+    driver: bridge
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: "Modern WordPress setup with MariaDB and stable networking."
+  tagline:
+    en_us: "Wordpress clone 1"
+  developer: Automattic
+  author: Johan
+  icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/wordpress.png
+  thumbnail: ""
+  title:
+    en_us: big-bear-wordpress-1
+  category: BigBearCasaOS
+  port_map: "8082"
