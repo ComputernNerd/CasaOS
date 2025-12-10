@@ -95,6 +95,6 @@ x-casaos:
   icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/wordpress.png
   thumbnail: ""
   title:
-    en_us: big-bear-wordpress-1
+    en_us: Wordpress Clone 2
   category: WordpressClone
   port_map: "8082"
