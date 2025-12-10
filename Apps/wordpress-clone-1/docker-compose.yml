@@ -90,11 +90,11 @@ x-casaos:
     en_us: "Modern WordPress setup with MariaDB and stable networking."
   tagline:
     en_us: "Wordpress clone 1"
-  developer: Automattic
+  developer: Johan
   author: Johan
   icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/wordpress.png
   thumbnail: ""
   title:
     en_us: big-bear-wordpress-1
-  category: BigBearCasaOS
+  category: WordpressClone
   port_map: "8082"
